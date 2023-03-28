@@ -92,7 +92,7 @@ public abstract class AutoConfigurationPackages {
 	public static void register(BeanDefinitionRegistry registry, String... packageNames) {
 		// 这里参数 packageNames 缺省情况下就是一个字符串，是使用了注解
 		// @SpringBootApplication 的Spring Boot 应用程序入口类所在的包
-		
+
 		if (registry.containsBeanDefinition(BEAN)) {
 			BeanDefinition beanDefinition = registry.getBeanDefinition(BEAN);
 			ConstructorArgumentValues constructorArguments = beanDefinition.getConstructorArgumentValues();
