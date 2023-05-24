@@ -94,11 +94,15 @@ public abstract class AutoConfigurationPackages {
 		// @SpringBootApplication 的Spring Boot 应用程序入口类所在的包
 
 		if (registry.containsBeanDefinition(BEAN)) {
+			// 如果该Bean已经注册,则将要注册包名添加进去
+
 			BeanDefinition beanDefinition = registry.getBeanDefinition(BEAN);
 			ConstructorArgumentValues constructorArguments = beanDefinition.getConstructorArgumentValues();
 			constructorArguments.addIndexedArgumentValue(0, addBasePackages(constructorArguments, packageNames));
 		}
 		else {
+			// 如果该Bean尚未注册,则注册该Bean,参数中提供的包名称会被设置到Bean定义中
+
 			GenericBeanDefinition beanDefinition = new GenericBeanDefinition();
 			beanDefinition.setBeanClass(BasePackages.class);
 			beanDefinition.getConstructorArgumentValues().addIndexedArgumentValue(0, packageNames);
@@ -123,7 +127,7 @@ public abstract class AutoConfigurationPackages {
 
 		@Override
 		public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry) {
-			//将注解标注的元信息传入，获取相应的包名
+			// 将注解标注的元信息传入，获取相应的包名
 			register(registry, new PackageImport(metadata).getPackageName());
 		}
 
