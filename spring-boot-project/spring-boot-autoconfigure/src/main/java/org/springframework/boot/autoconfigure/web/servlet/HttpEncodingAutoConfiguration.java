@@ -59,14 +59,16 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 @ConditionalOnProperty(prefix = "spring.http.encoding", value = "enabled", matchIfMissing = true)
 public class HttpEncodingAutoConfiguration {
 
+	// 它已经和springboot中的配置文件中的值进行映射了
 	private final HttpProperties.Encoding properties;
 
+	// 只有一个有参构造器的情况下，参数的值就会从容器中拿
 	public HttpEncodingAutoConfiguration(HttpProperties properties) {
 		this.properties = properties.getEncoding();
 	}
 
-	@Bean
-	@ConditionalOnMissingBean
+	@Bean  // 给容器中添加一个组件，这个组件中的某些值需要从properties中获取
+	@ConditionalOnMissingBean  // 判断容器中没有这个组件
 	public CharacterEncodingFilter characterEncodingFilter() {
 		CharacterEncodingFilter filter = new OrderedCharacterEncodingFilter();
 		filter.setEncoding(this.properties.getCharset().name());
