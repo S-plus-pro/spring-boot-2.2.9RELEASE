@@ -53,13 +53,14 @@ import org.springframework.data.repository.Repository;
 @SpringBootConfiguration  //标明该类为配置类
 @EnableAutoConfiguration  //启动自动配置功能
 @ComponentScan(excludeFilters = { @Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class),
-		@Filter(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.class) })
+		@Filter(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.class) })  // 注解扫描
 public @interface SpringBootApplication {
 
 	/**
 	 * Exclude specific auto-configuration classes such that they will never be applied.
 	 * @return the classes to exclude
 	 */
+	// 根据class来排除特定的类，使其不能加入spring容器，传入参数value类型是class类型
 	@AliasFor(annotation = EnableAutoConfiguration.class)
 	Class<?>[] exclude() default {};
 
@@ -69,6 +70,7 @@ public @interface SpringBootApplication {
 	 * @return the class names to exclude
 	 * @since 1.3.0
 	 */
+	// 根据classname来排除特定的类，使其不能加入spring容器，传入参数value类型是class的全类名称字符串数组
 	@AliasFor(annotation = EnableAutoConfiguration.class)
 	String[] excludeName() default {};
 
