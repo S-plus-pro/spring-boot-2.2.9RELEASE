@@ -268,11 +268,23 @@ public class SpringApplication {
 
 		// 设置资源加载器为NULL
 		this.resourceLoader = resourceLoader;
+
+		// 断言加载资源类不能为null
 		Assert.notNull(primarySources, "PrimarySources must not be null");
+
+		// 将primarySources数组转换为List, 最后放到LinkedHashSet集合中
 		this.primarySources = new LinkedHashSet<>(Arrays.asList(primarySources));
+
+		// [1.1 推断应用类型，后面会根据类型初始化对应的环境。常用的一般都是servlet环境]
 		this.webApplicationType = WebApplicationType.deduceFromClasspath();
+
+		// [1.2 初始化classpath下 META-INF/spring.factories中已配置的ApplicationContextInitializer]
 		setInitializers((Collection) getSpringFactoriesInstances(ApplicationContextInitializer.class));
+
+		// [1.3 初始化classpath下所有已配置的 ApplicationListener]
 		setListeners((Collection) getSpringFactoriesInstances(ApplicationListener.class));
+
+		// [1.4 根据调用栈 推断出main方法的类名]
 		this.mainApplicationClass = deduceMainApplicationClass();
 	}
 
@@ -298,8 +310,12 @@ public class SpringApplication {
 	 * @return a running {@link ApplicationContext}
 	 */
 	public ConfigurableApplicationContext run(String... args) {
+
+		// 记录程序运行时间
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
+
+		// ConfigurableApplicationContext Spring上下文
 		ConfigurableApplicationContext context = null;
 		Collection<SpringBootExceptionReporter> exceptionReporters = new ArrayList<>();
 		configureHeadlessProperty();
@@ -1225,6 +1241,8 @@ public class SpringApplication {
 	 * @return the running {@link ApplicationContext}
 	 */
 	public static ConfigurableApplicationContext run(Class<?>[] primarySources, String[] args) {
+
+		// 两件事：1.初始化SpringApplication 2.执行run方法
 		return new SpringApplication(primarySources).run(args);
 	}
 
